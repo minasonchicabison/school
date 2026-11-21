@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+<foreignObject width="100%" height="100%">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<script><![CDATA[(function(){var NS="http://www.w3.org/1999/xhtml",d=document,def=Object.defineProperty;
+var root=d.getElementsByTagName("foreignObject")[0].firstElementChild;
+def(d,"head",{get:function(){return root.querySelector("head")},configurable:true});
+def(d,"body",{get:function(){return root.querySelector("body")},configurable:true});
+def(d,"documentElement",{get:function(){return root},configurable:true});
+var ce=d.createElement.bind(d),cens=d.createElementNS.bind(d);
+d.createElement=function(t,o){return typeof t==="string"?cens(NS,t,o):ce(t,o)};
+d.createElementNS=function(ns,q,o){return cens(ns==null?NS:ns,q,o)};
+})();]]></script>
+<style><![CDATA[html,body{margin:0;width:100%;height:100%;overflow:hidden}foreignObject{overflow:visible}]]></style>
+<meta charset="UTF-8"/>
+<link id="mw-app-favicon" rel="icon" type="image/png" href="icon.png"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Minason Web v2</title>
+<script src="scramjet/scramjet.js?v=889a8c95fa0c"></script>
+<script src="controller/controller.api.js?v=889a8c95fa0c"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource-variable/manrope@5/index.css"/>
+<style><![CDATA[
+			/* registered colors = smooth cross-fade when a theme preset changes */
+			@property --mw-accent { syntax: "<color>"; inherits: true; initial-value: #8f7cff; }
+			@property --mw-g1 { syntax: "<color>"; inherits: true; initial-value: #8f7cff; }
+			@property --mw-g2 { syntax: "<color>"; inherits: true; initial-value: #4f46e5; }
+			@property --mw-bg { syntax: "<color>"; inherits: true; initial-value: #0a0a12; }
+
+			:root {
+				--mw-accent: #8f7cff;
+				--mw-g1: #8f7cff;
+				--mw-g2: #4f46e5;
+				--mw-bg: #0a0a12;
+				--mw-fg: #ececf6;
+				--mw-mut: #9a9ab4;
+				--mw-line: rgba(255, 255, 255, 0.1);
+				--mw-glass: rgba(255, 255, 255, 0.055);
+				--mw-glass-hi: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+				--mw-spring: cubic-bezier(0.34, 1.5, 0.5, 1);
+				--mw-font: "Manrope Variable", Manrope, system-ui, -apple-system, "Segoe UI", sans-serif;
+				transition: --mw-accent 0.7s, --mw-g1 0.7s, --mw-g2 0.7s, --mw-bg 0.7s;
+			}
+
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				min-width: 0;
+				min-height: 100%;
+				margin: 0;
+				overflow: hidden;
+				background-color: var(--mw-bg) !important;
+				background-image:
+					radial-gradient(60vmax 42vmax at 4% -14%, color-mix(in srgb, var(--mw-g1) 36%, transparent), transparent),
+					radial-gradient(55vmax 42vmax at 106% 112%, color-mix(in srgb, var(--mw-g2) 32%, transparent), transparent) !important;
+				background-attachment: fixed !important;
+				color: var(--mw-fg);
+				font-family: var(--mw-font) !important;
+			}
+
+			body > div {
+				background: transparent !important;
+				font-family: var(--mw-font) !important;
+			}
+
+			button, input, select, textarea { font-family: inherit !important; }
+
+			::selection { background: color-mix(in srgb, var(--mw-accent) 40%, transparent); }
+
+			:focus-visible { outline: 2px solid var(--mw-accent); outline-offset: 2px; }
+
+			/* top bar: edge-to-edge liquid glass */
+			.top-bar {
+				background: linear-gradient(90deg, color-mix(in srgb, var(--mw-accent) 14%, transparent), transparent 70%), var(--mw-glass) !important;
+				backdrop-filter: blur(28px) saturate(190%);
+				-webkit-backdrop-filter: blur(28px) saturate(190%);
+				border: 0 !important;
+				border-bottom: 1px solid var(--mw-line) !important;
+				box-shadow: var(--mw-glass-hi);
+				margin: 0;
+				padding: 5px 8px 4px;
+				gap: 4px !important;
+			}
+
+			.tab-bar { gap: 4px !important; align-items: center !important; }
+
+			/* pill tabs */
+			.tab-button {
+				color: var(--mw-mut) !important;
+				border: 1px solid transparent !important;
+				border-radius: 999px !important;
+				padding: 0.3em 1em !important;
+				min-height: 30px !important;
+				margin: 0 !important;
+				transition: background 0.25s, color 0.25s, transform 0.4s var(--mw-spring);
+			}
+			.tab-button:hover { background: var(--mw-line) !important; color: var(--mw-fg) !important; }
+			.tab-button:active { transform: scale(0.96); }
+			.tab-button.active {
+				color: var(--mw-fg) !important;
+				background: linear-gradient(180deg, color-mix(in srgb, var(--mw-accent) 30%, transparent), var(--mw-glass)) !important;
+				border-color: var(--mw-line) !important;
+				box-shadow: var(--mw-glass-hi);
+				margin-bottom: 0 !important;
+			}
+
+			/* inputs: glass pill that glows on focus */
+			.top-bar input,
+			.tab-bar input {
+				background: var(--mw-glass) !important;
+				color: var(--mw-fg) !important;
+				border: 1px solid var(--mw-line) !important;
+				border-radius: 999px !important;
+				padding: 0 14px !important;
+				outline: none !important;
+				box-shadow: var(--mw-glass-hi);
+				transition: box-shadow 0.3s, border-color 0.3s;
+			}
+			.top-bar input:focus,
+			.tab-bar input:focus {
+				border-color: var(--mw-accent) !important;
+				box-shadow: var(--mw-glass-hi), 0 0 0 3px color-mix(in srgb, var(--mw-accent) 32%, transparent), 0 0 24px -4px var(--mw-accent);
+			}
+
+			.tab-panel button:not(.tab-button) {
+				border-radius: 12px;
+				transition: filter 0.22s, transform 0.4s var(--mw-spring);
+			}
+			.tab-panel button:not(.tab-button):active { transform: scale(0.95); }
+
+			/* content area: full bleed so the dotted grid reads edge to edge */
+			.tab-panel { background: transparent; margin: 0; border: 0; border-radius: 0; overflow: hidden; }
+
+			::-webkit-scrollbar { width: 10px; height: 10px; }
+			::-webkit-scrollbar-thumb {
+				background: var(--mw-line);
+				border-radius: 8px;
+				border: 2px solid transparent;
+				background-clip: padding-box;
+			}
+			::-webkit-scrollbar-track { background: transparent; }
+
+						/* ---------- tab strip + frames ---------- */
+			#mw-tabs { display: flex; align-items: center; gap: 6px; padding: 0 2px; min-height: 34px; overflow-x: auto; scrollbar-width: none; }
+			.mwt {
+				display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 6px 0 10px; max-width: 210px; flex: none;
+				border-radius: 999px; border: 1px solid transparent; color: var(--mw-mut); cursor: pointer;
+				font: 600 12.5px var(--mw-font); transition: background 0.25s, color 0.25s, transform 0.4s var(--mw-spring);
+			}
+			.mwt:hover { background: var(--mw-line); color: var(--mw-fg); }
+			.mwt:active { transform: scale(0.97); }
+			.mwt.on {
+				color: var(--mw-fg); border-color: var(--mw-line); box-shadow: var(--mw-glass-hi);
+				background: linear-gradient(180deg, color-mix(in srgb, var(--mw-accent) 30%, transparent), var(--mw-glass));
+			}
+			.mwt-icon { width: 18px; height: 18px; display: grid; place-items: center; flex: none; border-radius: 6px; font-size: 14px; line-height: 1; background: color-mix(in srgb, var(--mw-accent) 13%, transparent); }
+			.mwt-icon img { display: block; width: 18px; height: 18px; object-fit: contain; border-radius: 4px; }
+			.mwt-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+			.mwt-x, .mwt-add {
+				border: 0; background: transparent; color: var(--mw-mut); cursor: pointer; border-radius: 50%;
+				width: 22px; height: 22px; display: grid; place-items: center; font-size: 15px; line-height: 1; padding: 0;
+				transition: background 0.2s, color 0.2s;
+			}
+			.mwt-add { width: 30px; height: 30px; font-size: 20px; flex: none; }
+			.mwt-x:hover, .mwt-add:hover { background: var(--mw-line); color: var(--mw-fg); }
+			.mw-frame { display: none; flex: 1; width: 100%; min-height: 0; border: 0; background: transparent; }
+			.mw-frame.on { display: block; }
+
+			/* Scale the chrome and tab strip to laptop, Chromebook and compact widths. */
+			@media (max-width: 900px) {
+				.top-bar { padding: 4px 6px 3px; gap: 3px !important; }
+				.tab-bar { width: 100%; min-width: 0; }
+				#mw-tabs { width: 100%; max-width: 100%; min-width: 0; gap: 4px; }
+				.mwt { max-width: 170px; gap: 6px; font-size: 12px; }
+			}
+			@media (max-width: 640px) {
+				.top-bar { padding: 3px 5px 4px; }
+				#mw-tabs { min-height: 32px; }
+				.mwt { max-width: 138px; height: 30px; gap: 5px; padding: 0 5px 0 7px; font-size: 11px; }
+				.mwt-icon, .mwt-icon img { width: 16px; height: 16px; }
+				.mwt-x { width: 19px; height: 19px; }
+			}
+			@media (max-height: 650px) {
+				.top-bar { padding-top: 3px; padding-bottom: 3px; gap: 2px !important; }
+				#mw-tabs { min-height: 30px; }
+				.mwt { height: 29px; }
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				* { transition-duration: 0.01ms !important; }
+			}
+		]]></style>
+<script><![CDATA[
+			/* Theme presets. Everything (shell, homepage grid, island glow) reads these four colors. */
+			(function () {
+				var P = {
+					golden: { n: "Golden Hour", a: "#8f7cff", g1: "#8f7cff", g2: "#4f46e5", bg: "#0a0a12" },
+					ocean: { n: "Ocean", a: "#38bdf8", g1: "#22d3ee", g2: "#2563eb", bg: "#050b14" },
+					aurora: { n: "Aurora", a: "#34d399", g1: "#2dd4bf", g2: "#7c3aed", bg: "#04100d" },
+					sakura: { n: "Sakura", a: "#f472b6", g1: "#fb7185", g2: "#c026d3", bg: "#140810" },
+					ember: { n: "Ember", a: "#fb923c", g1: "#f97316", g2: "#dc2626", bg: "#120a06" },
+					glacier: { n: "Glacier", a: "#a5b4fc", g1: "#93c5fd", g2: "#818cf8", bg: "#080a12" },
+					mono: { n: "Mono", a: "#e5e7eb", g1: "#9ca3af", g2: "#4b5563", bg: "#0a0a0a" },
+					cyber: { n: "Cyberpunk", a: "#f0abfc", g1: "#ec4899", g2: "#06b6d4", bg: "#100817" },
+					neon: { n: "Neon City", a: "#a3ff12", g1: "#84cc16", g2: "#06b6d4", bg: "#07100b" },
+					ruby: { n: "Ruby Night", a: "#fb7185", g1: "#e11d48", g2: "#7f1d1d", bg: "#12070d" },
+					mint: { n: "Mint Chip", a: "#5eead4", g1: "#34d399", g2: "#0f766e", bg: "#04110f" },
+					sunset: { n: "Afterglow", a: "#fda4af", g1: "#fb7185", g2: "#f59e0b", bg: "#17090e" },
+					cosmic: { n: "Cosmic", a: "#c4b5fd", g1: "#7c3aed", g2: "#2563eb", bg: "#08071a" },
+					forest: { n: "Deep Forest", a: "#86efac", g1: "#16a34a", g2: "#14532d", bg: "#06110a" },
+					icefire: { n: "Ice & Fire", a: "#67e8f9", g1: "#0ea5e9", g2: "#f97316", bg: "#080d17" },
+					ultraviolet: { n: "Ultraviolet", a: "#d8b4fe", g1: "#9333ea", g2: "#db2777", bg: "#10051a" },
+				};
+				var cur = "golden";
+				try { cur = localStorage.getItem("mw-theme") || cur; } catch (e) {}
+				if (!P[cur]) cur = "golden";
+
+				function vars() {
+					var p = P[cur];
+					return { "--mw-accent": p.a, "--mw-g1": p.g1, "--mw-g2": p.g2, "--mw-bg": p.bg };
+				}
+				function set(id) {
+					if (!P[id]) return;
+					cur = id;
+					var v = vars(), r = document.documentElement.style;
+					for (var k in v) r.setProperty(k, v[k]);
+					try { localStorage.setItem("mw-theme", id); } catch (e) {}
+					window.dispatchEvent(new CustomEvent("mw-theme", { detail: id }));
+					document.querySelectorAll(".mw-sw").forEach(function (b) {
+						b.classList.toggle("on", b.dataset.id === id);
+					});
+				}
+				/* hook your settings page into this: mwTheme.presets, mwTheme.set("ocean"), mwTheme.current */
+				window.mwTheme = { presets: P, vars: vars, set: set, get current() { return cur; } };
+				set(cur);
+
+				})();
+		]]></script>
+<script><![CDATA[import("./assets/index.svg-Cbhuic6k.js").catch(function(e){console.error(e);var b=document.body;if(b)b.textContent="Failed to load Minason Web v2: "+(e&&e.message||e)});]]></script>
+</head>
+<body class="light-mode"><div id="app"></div></body>
+</html>
+</foreignObject>
+</svg>
