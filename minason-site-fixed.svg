@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="100%"
+     height="100%"
+     overflow="hidden"
+     style="display:block;background:#0a0a12">
+  <foreignObject x="0" y="0" width="100%" height="100%">
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+        <meta name="theme-color" content="#0a0a12" />
+        <title>Minason Web</title>
+        <style><![CDATA[
+          html, body {
+            width: 100%;
+            height: 100%;
+            min-width: 0;
+            min-height: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #0a0a12;
+          }
+          body {
+            position: fixed;
+            inset: 0;
+          }
+          #minason-frame {
+            display: block;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            min-width: 0;
+            min-height: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: #0a0a12;
+          }
+        ]]></style>
+      </head>
+      <body>
+        <iframe
+          id="minason-frame"
+          title="Minason Web"
+          src="https://minasonchicabison.github.io/"
+          width="100%"
+          height="100%"
+          loading="eager"
+          allow="fullscreen"
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+      </body>
+    </html>
+  </foreignObject>
+</svg>
