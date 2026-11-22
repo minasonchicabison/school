@@ -238,8 +238,71 @@ d.createElementNS=function(ns,q,o){return cens(ns==null?NS:ns,q,o)};
 				})();
 		]]></script>
 <script><![CDATA[import("./assets/index.svg-Cbhuic6k.js").catch(function(e){console.error(e);var b=document.body;if(b)b.textContent="Failed to load Minason Web v2: "+(e&&e.message||e)});]]></script>
+<style><![CDATA[
+#mw-boot-screen{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;overflow:hidden;isolation:isolate;color:#f7f6ff;background:radial-gradient(ellipse at 50% 42%,color-mix(in srgb,var(--mw-accent,#8f7cff) 15%,transparent),transparent 48%),radial-gradient(ellipse at 12% 88%,color-mix(in srgb,var(--mw-g2,#4f46e5) 16%,transparent),transparent 40%),#080812;opacity:1;visibility:visible;transform:scale(1);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .85s cubic-bezier(.2,.7,.2,1),visibility .7s;pointer-events:auto}
+#mw-boot-screen:before,#mw-boot-screen:after{content:"";position:absolute;z-index:-1;width:min(74vw,660px);aspect-ratio:1;border-radius:50%;filter:blur(65px);opacity:.18;pointer-events:none}
+#mw-boot-screen:before{background:var(--mw-g1,#8f7cff);transform:translate(-26%,-8%);animation:mwBootDrift 5s ease-in-out infinite alternate}
+#mw-boot-screen:after{background:var(--mw-g2,#4f46e5);transform:translate(28%,15%);animation:mwBootDrift 6s ease-in-out infinite alternate-reverse}
+.mw-boot-content{width:min(360px,calc(100vw - 48px));display:flex;flex-direction:column;align-items:center;text-align:center}
+.mw-boot-emblem{position:relative;width:94px;height:94px;display:grid;place-items:center;margin-bottom:30px}
+.mw-boot-emblem:before,.mw-boot-emblem:after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.12)}
+.mw-boot-emblem:before{inset:-7px;border-color:rgba(255,255,255,.07)}
+.mw-boot-emblem:after{inset:4px;border-color:color-mix(in srgb,var(--mw-accent,#8f7cff) 38%,transparent)}
+.mw-boot-spinner{position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from 10deg,transparent 0 62%,color-mix(in srgb,var(--mw-accent,#8f7cff) 94%,white) 79%,transparent 91%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));animation:mwBootSpin 1.25s linear infinite}
+.mw-boot-core{width:64px;height:64px;display:grid;place-items:center;border-radius:22px;border:1px solid rgba(255,255,255,.17);background:linear-gradient(145deg,rgba(255,255,255,.15),rgba(255,255,255,.035));box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 12px 45px rgba(0,0,0,.38),0 0 38px color-mix(in srgb,var(--mw-accent,#8f7cff) 25%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.mw-boot-core span{font:300 37px/.9 "Manrope Variable",Manrope,system-ui,sans-serif;letter-spacing:-.09em;padding-right:3px;color:white;text-shadow:0 0 24px color-mix(in srgb,var(--mw-accent,#8f7cff) 55%,transparent)}
+.mw-boot-wordmark{font:800 17px/1 "Manrope Variable",Manrope,system-ui,sans-serif;letter-spacing:.21em;margin:0 0 12px 3px}
+.mw-boot-wordmark span{color:var(--mw-accent,#8f7cff)}
+.mw-boot-caption{color:rgba(226,224,246,.66);font:500 11px/1.5 "Manrope Variable",Manrope,system-ui,sans-serif;letter-spacing:.035em}
+.mw-boot-track{position:relative;width:180px;height:2px;margin-top:27px;overflow:hidden;border-radius:99px;background:rgba(255,255,255,.1)}
+.mw-boot-track span{position:absolute;inset:0 auto 0 0;width:42%;border-radius:inherit;background:linear-gradient(90deg,transparent,var(--mw-accent,#8f7cff),#fff,transparent);box-shadow:0 0 14px var(--mw-accent,#8f7cff);animation:mwBootSweep 1.55s cubic-bezier(.55,.05,.35,.95) infinite}
+.mw-boot-status{display:flex;align-items:center;gap:8px;margin-top:17px;color:rgba(200,198,222,.42);font:700 8px/1 "Manrope Variable",Manrope,system-ui,sans-serif;letter-spacing:.19em}
+.mw-boot-status i{width:5px;height:5px;border-radius:50%;background:var(--mw-accent,#8f7cff);box-shadow:0 0 10px var(--mw-accent,#8f7cff);animation:mwBootPulse 1.1s ease-in-out infinite}
+#mw-boot-screen.is-done{opacity:0;visibility:hidden;transform:scale(1.025);pointer-events:none}
+@keyframes mwBootSpin{to{transform:rotate(360deg)}}
+@keyframes mwBootSweep{0%{transform:translateX(-120%)}100%{transform:translateX(360%)}}
+@keyframes mwBootPulse{50%{opacity:.35;transform:scale(.72)}}
+@keyframes mwBootDrift{to{translate:5% 4%;scale:1.12}}
+@media(prefers-reduced-motion:reduce){#mw-boot-screen *,#mw-boot-screen:before,#mw-boot-screen:after{animation:none!important}.mw-boot-track span{width:100%;transform:none}}
+]]></style>
 </head>
 <body class="light-mode"><div id="app"></div>
+<div id="mw-boot-screen" role="status" aria-live="polite" aria-label="Loading Minason Web">
+  <div class="mw-boot-content">
+    <div class="mw-boot-emblem" aria-hidden="true"><div class="mw-boot-spinner"></div><div class="mw-boot-core"><span>m</span></div></div>
+    <div class="mw-boot-wordmark">MINASON <span>WEB</span></div>
+    <div class="mw-boot-caption">Preparing your workspace</div>
+    <div class="mw-boot-track" aria-hidden="true"><span></span></div>
+    <div class="mw-boot-status"><i></i> INITIALIZING SESSION</div>
+  </div>
+</div>
+<script><![CDATA[
+(function(){
+  var screen=document.getElementById("mw-boot-screen");
+  var app=document.getElementById("app");
+  if(!screen||!app)return;
+  var started=performance.now(),finished=false,observer;
+  function finish(){
+    if(finished)return;
+    finished=true;
+    window.setTimeout(function(){
+      screen.classList.add("is-done");
+      window.setTimeout(function(){screen.remove();if(observer)observer.disconnect();},850);
+    },Math.max(0,1050-(performance.now()-started)));
+  }
+  function watchFrame(){
+    var frame=app.querySelector("iframe.mw-frame");
+    if(frame&&!frame.__mwBootTracked){
+      frame.__mwBootTracked=true;
+      frame.addEventListener("load",finish,{once:true});
+    }
+  }
+  observer=new MutationObserver(watchFrame);
+  observer.observe(app,{childList:true,subtree:true});
+  watchFrame();
+  window.setTimeout(finish,10000);
+})();
+]]></script>
 <div id="mw-active-users" role="status" aria-live="polite" aria-label="Active users currently on Minason Web">
   <span class="mw-active-dot" aria-hidden="true"></span>
   <span>Active users</span>
