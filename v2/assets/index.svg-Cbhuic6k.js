@@ -342,14 +342,14 @@ function startIslandLoading(){
   },1050);
   send({type:"mw-refresh-live"});
 }
-function setOpen(value){
+function setOpen(value,userInitiated){
   var next=!!value,changed=next!==open;
   open=next;
   I.classList.toggle("is-open",open);
   I.setAttribute("aria-expanded",open?"true":"false");
   C.classList.toggle("on",!open);
   E.classList.toggle("on",open);
-  if(open&&changed)startIslandLoading();
+  if(open&&userInitiated)startIslandLoading();
   if(!open){
     window.clearTimeout(loadingTimer);
     I.classList.remove("is-loading");
@@ -494,7 +494,7 @@ function showAutomaticStatus(){
   lastAutoSlot=slot;
   if(pinned||hover)return;
   autoOpenUntil=Date.now()+5700;
-  setOpen(true);
+  setOpen(true,false);
   window.clearTimeout(autoCloseTimer);
   autoCloseTimer=window.setTimeout(function(){
     if(!pinned&&!hover&&Date.now()>=autoOpenUntil)setOpen(false);
@@ -506,7 +506,7 @@ function tickIsland(){
 }
 I.addEventListener("pointerenter",function(){
   hover=true;
-  setOpen(true);
+  setOpen(true,true);
 });
 I.addEventListener("pointerleave",function(){
   hover=false;
@@ -518,14 +518,14 @@ I.addEventListener("click",function(){
     window.clearTimeout(autoCloseTimer);
     autoOpenUntil=0;
   }
-  setOpen(pinned||hover);
+  setOpen(pinned||hover,true);
 });
 I.addEventListener("keydown",function(event){
   if(event.key==="Enter"||event.key===" "){
     event.preventDefault();
     pinned=!pinned;
     if(pinned){window.clearTimeout(autoCloseTimer);autoOpenUntil=0;}
-    setOpen(pinned||hover);
+    setOpen(pinned||hover,true);
   }else if(event.key==="Escape"){
     pinned=false;autoOpenUntil=0;setOpen(false);
   }
