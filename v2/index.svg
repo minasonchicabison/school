@@ -274,31 +274,30 @@ d.createElementNS=function(ns,q,o){return cens(ns==null?NS:ns,q,o)};
     badge.classList.add("is-ready");
   }
 
-  function connect(){
-    var sdk = window.SimplePresence;
-    if (sdk && sdk.SimplePresence) {
-      try {
-        var presence = new sdk.SimplePresence({
-          tag: TAG,
-          appKey: APP_KEY,
-          onCountChange: setCount
-        });
-        setCount(presence.getCount());
-        window.addEventListener("pagehide", function(){ presence.destroy(); }, {once:true});
-        return;
-      } catch (error) {
-        console.warn("Minason Web presence could not start:", error);
-      }
-    }
-    countNode.textContent = "—";
-  }
-
-  var script = document.createElement("script");
-  script.src = "https://unpkg.com/@simple-presence/core@0.3.3";
-  script.async = true;
-  script.onload = connect;
-  script.onerror = function(){ console.warn("Minason Web presence SDK failed to load."); };
-  document.head.appendChild(script);
+  // SVG documents cannot run module scripts directly, so host the ESM
+  // client in a tiny HTML srcdoc frame and relay its count back here.
+  var presenceFrame = document.createElement("iframe");
+  presenceFrame.setAttribute("title", "Presence connection");
+  presenceFrame.setAttribute("aria-hidden", "true");
+  presenceFrame.style.cssText = "position:fixed;left:-100px;top:-100px;width:1px;height:1px;border:0;opacity:0;pointer-events:none;";
+  window.addEventListener("message", function(event){
+    if (event.source !== presenceFrame.contentWindow) return;
+    var data = event.data;
+    if (data && data.type === "mw-simple-presence-count") setCount(data.count);
+  });
+  var moduleHtml = '<!doctype html><html><head><meta charset="utf-8"></head><body>' +
+    '<script type="module">' +
+    'import { SimplePresence } from "https://esm.sh/@simple-presence/core@0.3.3?bundle";' +
+    'var presence = new SimplePresence({tag:' + JSON.stringify(TAG) + ',appKey:' + JSON.stringify(APP_KEY) + ',onCountChange:function(count){parent.postMessage({type:"mw-simple-presence-count",count:count},"*");}});' +
+    'parent.postMessage({type:"mw-simple-presence-count",count:presence.getCount()},"*");' +
+    'window.addEventListener("pagehide",function(){presence.destroy();},{once:true});' +
+    '<' + '/script></body></html>';
+  presenceFrame.srcdoc = moduleHtml;
+  document.body.appendChild(presenceFrame);
+  window.addEventListener("pagehide", function(){
+    presenceFrame.src = "about:blank";
+    presenceFrame.remove();
+  }, {once:true});
 })();
 ]]></script>
 </body>
