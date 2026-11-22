@@ -239,7 +239,69 @@ d.createElementNS=function(ns,q,o){return cens(ns==null?NS:ns,q,o)};
 		]]></script>
 <script><![CDATA[import("./assets/index.svg-Cbhuic6k.js").catch(function(e){console.error(e);var b=document.body;if(b)b.textContent="Failed to load Minason Web v2: "+(e&&e.message||e)});]]></script>
 </head>
-<body class="light-mode"><div id="app"></div></body>
+<body class="light-mode"><div id="app"></div>
+<div id="mw-active-users" role="status" aria-live="polite" aria-label="Active users currently on Minason Web">
+  <span class="mw-active-dot" aria-hidden="true"></span>
+  <span>Active users</span>
+  <strong id="mw-active-users-count">—</strong>
+  <span class="mw-active-label">online</span>
+</div>
+<script><![CDATA[
+(function(){
+  var APP_KEY = "gETrNnD1k1FdEX3A_YGAcFHyuVxPPBPS";
+  var TAG = "minason-web";
+  var badge = document.getElementById("mw-active-users");
+  var countNode = document.getElementById("mw-active-users-count");
+  if (!badge || !countNode) return;
+
+  var style = document.createElement("style");
+  style.textContent = "#mw-active-users{position:fixed;left:16px;bottom:14px;z-index:2147483647;display:none;align-items:center;gap:8px;min-height:34px;padding:0 12px;border:1px solid rgba(255,255,255,.13);border-radius:999px;background:rgba(10,10,18,.68);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 5px 20px rgba(0,0,0,.18);color:#aaa8c4;font:650 10px/1 system-ui,sans-serif;pointer-events:none;user-select:none}#mw-active-users .mw-active-dot{width:7px;height:7px;flex:none;border-radius:50%;background:#85859a;box-shadow:0 0 8px rgba(133,133,154,.25)}#mw-active-users.is-ready .mw-active-dot{background:#39e8a4;box-shadow:0 0 10px rgba(57,232,164,.7)}#mw-active-users strong{color:#f2f0ff;font-size:11px;font-weight:900;font-variant-numeric:tabular-nums}#mw-active-users .mw-active-label{margin-left:-5px}@media(max-width:560px){#mw-active-users{left:10px;bottom:10px;min-height:31px;padding:0 10px;font-size:9px}}";
+  document.head.appendChild(style);
+
+  function syncHomeVisibility(){
+    var input = document.getElementById("search");
+    badge.style.display = input && !String(input.value || "").trim() ? "flex" : "none";
+  }
+  syncHomeVisibility();
+  window.setInterval(syncHomeVisibility, 350);
+  document.addEventListener("input", function(event){
+    if (event.target && event.target.id === "search") syncHomeVisibility();
+  }, true);
+
+  function setCount(value){
+    if (!Number.isFinite(Number(value))) return;
+    countNode.textContent = String(Math.max(0, Math.floor(Number(value))));
+    badge.classList.add("is-ready");
+  }
+
+  function connect(){
+    var sdk = window.SimplePresence;
+    if (sdk && sdk.SimplePresence) {
+      try {
+        var presence = new sdk.SimplePresence({
+          tag: TAG,
+          appKey: APP_KEY,
+          onCountChange: setCount
+        });
+        setCount(presence.getCount());
+        window.addEventListener("pagehide", function(){ presence.destroy(); }, {once:true});
+        return;
+      } catch (error) {
+        console.warn("Minason Web presence could not start:", error);
+      }
+    }
+    countNode.textContent = "—";
+  }
+
+  var script = document.createElement("script");
+  script.src = "https://unpkg.com/@simple-presence/core@0.3.3";
+  script.async = true;
+  script.onload = connect;
+  script.onerror = function(){ console.warn("Minason Web presence SDK failed to load."); };
+  document.head.appendChild(script);
+})();
+]]></script>
+</body>
 </html>
 </foreignObject>
 </svg>
