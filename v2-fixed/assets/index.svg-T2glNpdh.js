@@ -304,7 +304,7 @@ if(ctx){
 
 /* school-status dynamic island */
 var I=$("mwi"),C=$("mwc"),E=$("mwe"),open=false,pinned=false,hover=false;
-var autoOpenUntil=0,autoCloseTimer=0,lastAutoSlot=-1,loadingTimer=0;
+var autoOpenUntil=0,autoCloseTimer=0,lastAutoSlot=-1,loadingTimer=0,islandLoadingShown=false;
 var timeEl=$("ct"),expandedTimeEl=$("et");
 var badgeEl=$("schoolBadge"),periodEl=$("periodTitle"),leftEl=$("periodLeft");
 var progressEl=$("periodProgress"),detailEl=$("periodDetail"),nextEl=$("nextPeriod"),noteEl=$("diNote");
@@ -331,6 +331,8 @@ function remainingString(minutes){
   return value+(value===1?" min":" mins");
 }
 function startIslandLoading(){
+  if(islandLoadingShown)return;
+  islandLoadingShown=true;
   I.classList.add("is-loading");
   window.clearTimeout(loadingTimer);
   loadingTimer=window.setTimeout(function(){
